@@ -1,0 +1,24 @@
+#!/bin/sh
+SENSOR=${0##*wde_kombisensor_}
+
+case $1 in
+   config)
+       echo "graph_title USB-WDE1 Kombisensor $SENSOR
+graph_args --base 1000
+graph_vlabel Temperatur u. Luftfeuchtigkeit
+graph_category USB-WDE1
+graph_info Temperatur und Luftfeuchtigkeit eines per USB-WDE1 Empfaengers ausgelesenen Kombisensors.
+temp.label C
+temp.draw AREA
+temp.warning -5:30
+temp.colour COLOUR18
+hum.label rF
+hum.draw LINE2
+hum.colour COLOUR16"
+        exit 0;;
+esac
+
+printf "temp.value "
+/usr/local/bin/wdeClient.py --temp ${SENSOR}
+printf "hum.value "
+/usr/local/bin/wdeClient.py --hum ${SENSOR}

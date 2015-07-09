@@ -1,0 +1,19 @@
+#!/bin/sh
+SENSOR=${0##*wde_luftfeuchte_}
+
+case $1 in
+   config)
+       echo "graph_title USB-WDE1 Luftfeuchtesensor $SENSOR
+graph_args --base 1000
+graph_vlabel Luftfeuchte
+graph_category USB-WDE1
+graph_info Luftfeuchte eines per USB-WDE1 Empfaengers ausgelesenen Kombisensors.
+hum.label rF
+hum.draw AREA
+hum.warning 30:80
+hum.colour COLOUR16"
+        exit 0;;
+esac
+
+printf "hum.value "
+/usr/local/bin/wdeClient.py --hum ${SENSOR}
